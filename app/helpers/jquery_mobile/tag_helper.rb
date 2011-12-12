@@ -61,8 +61,9 @@ module JqueryMobile::TagHelper
   end
 
   def linked_list_of(collection, options = {}, &block)
-    items = collection.map { |e| block.call(e) }.join.html_safe
-    content_tag :ul, items, mobile_options(options, :role => 'listview')
+    content_tag :ul, mobile_options(options, :role => 'listview') do
+      collection.map { |e| block.call(e) }.join.html_safe
+    end
   end
 
   def mobile_options(options, extra={})
