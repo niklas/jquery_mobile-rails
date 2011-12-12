@@ -2,9 +2,12 @@
   - if content_for?(:header)
     = mobile_tag header_options.merge(:role => 'header') do
       = yield :header
-  = mobile_tag :role => 'content' do
+  = mobile_tag content_options.merge(:role => 'content') do
     = render 'flash', :flash => flash
     = yield
   - if content_for?(:footer)
     = mobile_tag footer_options.merge(:role => 'footer') do
       = yield :footer
+
+- if content_for?(:extra_pages)
+  = yield :extra_pages
