@@ -3,6 +3,7 @@
     = mobile_tag header_options.merge(:role => 'header') do
       = yield :header
   = mobile_tag :role => 'content' do
+    = render 'flash', :flash => flash
     = yield
   - if content_for?(:footer)
     = mobile_tag footer_options.merge(:role => 'footer') do
