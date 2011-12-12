@@ -41,9 +41,7 @@ module JqueryMobile::TagHelper
   #             http://jquerymobile.com/demos/1.0/docs/pages/touchoverflow.html
   #   :tag    - you don't want a div?
   def mobile_tag(options = {}, &block)
-    options.reverse_merge!('data-role' => options.delete(:role))   if options.has_key?(:role)
-    options.reverse_merge!('data-position' => 'fixed')             if options.delete(:fixed)
-    options.reverse_merge!('data-theme' => options.delete(:theme)) if options.has_key?(:theme)
+    options = mobile_options(options)
     tag_name = options.delete(:tag) || 'div'
     content_tag tag_name, options, &block
   end
@@ -60,6 +58,20 @@ module JqueryMobile::TagHelper
 
   def back_button_to(label, url, options = {})
     link_to label, url, options.merge('data-rel' => 'back')
+  end
+
+  def linked_list_of(collection, options = {}, &block)
+    content_tag :ul, mobile_options(options, :role => 'listview') do
+      collection.map { |e| block.call(e) }.join.html_safe
+    end
+  end
+
+  def mobile_options(options, extra={})
+    options.merge(extra).tap do |o|
+      o.reverse_merge!('data-role'     => o.delete(:role))  if o.has_key?(:role)
+      o.reverse_merge!('data-position' => 'fixed')          if o.delete(:fixed)
+      o.reverse_merge!('data-theme'    => o.delete(:theme)) if o.has_key?(:theme)
+    end
   end
 end
 
