@@ -15,4 +15,5 @@ Gem::Specification.new do |s|
   s.files        = `git ls-files`.split("\n")
   s.executables  = `git ls-files`.split("\n").select{|f| f =~ /^bin/}
   s.require_path = 'lib'
+  s.add_dependency %q<activesupport>, "~> 3.1.0"
 end

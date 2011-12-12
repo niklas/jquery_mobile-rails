@@ -7,17 +7,17 @@ module JqueryMobile::TagHelper
     render 'mobile_page'
   end
 
-  # adds the block contents to the JqueryMobile header
-  def for_header(options={}, &block)
-    header_options.merge! options
-    content_for :header, &block
+  def self.injector(name)
+    module_eval <<-EOEVAL, __FILE__, __LINE__
+      def for_#{name}(options={}, &block)
+        #{name}_options.merge! options
+        content_for :#{name}, &block
+      end
+    EOEVAL
   end
 
-  # adds the block contents to the JqueryMobile footer
-  def for_footer(options={}, &block)
-    footer_options.merge! options
-    content_for :footer, &block
-  end
+  injector :header
+  injector :footer
 
   def self.options(name)
     module_eval <<-EOEVAL, __FILE__, __LINE__
@@ -61,9 +61,8 @@ module JqueryMobile::TagHelper
   end
 
   def linked_list_of(collection, options = {}, &block)
-    content_tag :ul, mobile_options(options, :role => 'listview') do
-      collection.map { |e| block.call(e) }.join.html_safe
-    end
+    items = collection.map { |e| block.call(e) }.join.html_safe
+    content_tag :ul, items, mobile_options(options, :role => 'listview')
   end
 
   def mobile_options(options, extra={})
