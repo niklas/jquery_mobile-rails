@@ -73,5 +73,10 @@ module JqueryMobile::TagHelper
       o.reverse_merge!('data-theme'    => o.delete(:theme)) if o.has_key?(:theme)
     end
   end
+
+  def collapsible(options={}, &block)
+    options.merge!('data-collapsed' => options.delete(:collapsed)) if options.has_key?(:collapsed)
+    mobile_tag options.merge(:role => 'collapsible'), &block
+  end
 end
 
