@@ -46,13 +46,13 @@ module JqueryMobile::TagHelper
     content_tag tag_name, options, &block
   end
 
-  def page(options = {}, &block)
+  def page_tag(options = {}, &block)
     mobile_tag(options.merge(:role => 'page'), &block)
   end
 
   def extra_page(options ={}, &block)
     content_for :extra_pages do
-      page options, &block
+      page_tag options, &block
     end
   end
 
